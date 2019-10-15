@@ -1,0 +1,14 @@
+skydns.local {
+    etcd {
+        path /skydns
+        endpoint http://172.20.57.58:2379
+    }
+    cache
+}
+
+. {
+    forward . /etc/resolv.conf
+    cache
+}
+
+
