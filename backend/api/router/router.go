@@ -25,6 +25,15 @@ func InitRouter() *gin.Engine {
     }))
 
 
+    //登录入口
+    passport := router.Group("/passport")
+    {
+        passport.POST("/login", Login) 
+        //passport.POST("/logout", Logout) 
+    }
+
+
+
     //用户管理入口
     home := router.Group("/home")
     {
