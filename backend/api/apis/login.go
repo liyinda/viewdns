@@ -16,7 +16,7 @@ func Login(c *gin.Context) {
     var json models.LoginJson
 
     code := e.INVALID_PARAMS
-    /*
+
     if err := c.ShouldBindJSON(&json); err != nil {
         code = e.ERROR_NOT_JSON
         c.JSON(http.StatusBadRequest, gin.H{
@@ -24,25 +24,26 @@ func Login(c *gin.Context) {
         })
         return
     }
-    */
+ 
+    
     //获取管理员密码
-    var admin models.Admin
-    result, err := admin.GetPassword(json.Loginname)
-    if err != nil {
-        code = e.ERROR
-        return
-    }
+    //var admin models.Admin
+    //result, err := admin.GetPassword(json.Loginname)
+    result := "123"
+    //if err != nil {
+    //    code = e.ERROR
+    //    return
+    //}
     if len(result) == 0 {
         code = e.ERROR_NOT_EXIST_USER
         c.JSON(http.StatusOK, gin.H{
             "msg": e.GetMsg(code),
-            "debug": json.Loginname,
         })
         return
     }
 
     //比较用户POST提交的密码是否与数据库中密码一致
-    if json.Password == "123" {
+    if json.Password == result {
         //将username存储到session中
         session := sessions.Default(c)
 	session.Set("user", json.Loginname)
@@ -71,6 +72,7 @@ func Login(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{
         "status": code,
         "msg": e.GetMsg(code),
+        "help": json.Loginname,
     })
 
 }
@@ -89,6 +91,7 @@ func Logout(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "Successfully logged out"})
 	}
 }
+*/
 
 //用户信息
 func Userinfo(c *gin.Context) {
@@ -130,4 +133,3 @@ func AuthRequired() gin.HandlerFunc {
         }
     }
 }
-*/

@@ -12,6 +12,10 @@ import (
     //"strconv"
 )
 
+
+
+
+
 //查看etcd信息
 func Dnslist(c *gin.Context) {
     //获取session中的user信息
