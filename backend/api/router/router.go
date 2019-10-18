@@ -12,17 +12,32 @@ import (
 
 func InitRouter() *gin.Engine {
     router := gin.Default()
-
+    /*
     router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"*"},
+        //AllowOrigins:     []string{"*"},
+        //AllowOrigins:     []string{"http://172.20.52.36", "http://localhost"},
+        AllowOrigins:     []string{"http://172.20.52.36:9528"},
         AllowMethods:     []string{"PUT", "PATCH", "POST", "GET", "OPTIONS", "DELETE"},
-        AllowHeaders:     []string{"Content-Type","Authorization","X-Token","Access-Control-Allow-Origin"},
+        //AllowMethods:     []string{"*"},
+        AllowHeaders:     []string{"content-type","Content-Type","Authorization","X-Token","Access-Control-Allow-Origin"},
+        //AllowHeaders:     []string{"*"},
         ExposeHeaders:    []string{"Content-Length"},
         AllowCredentials: true,
         AllowOriginFunc: func(origin string) bool {
             return origin == "*"
         },
     }))
+    */
+
+    router.Use(cors.New(cors.Config{
+        AllowOriginFunc:  func(origin string) bool { return true },
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+        //AllowHeaders:     []string{"Authorization", "Content-Length", "Content-Type","X-Token", "Access-Control-Allow-Origin"},
+        AllowHeaders:     []string{"Content-Length", "Content-Type","X-Token", "Access-Control-Allow-Origin"},
+        AllowCredentials: true,
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowOrigins:     []string{"http://localhost:9528"},
+    }))    
 
     //设置sessions
     store := sessions.NewCookieStore([]byte("secret"))
