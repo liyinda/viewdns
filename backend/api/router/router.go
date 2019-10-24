@@ -5,7 +5,7 @@ import (
     . "github.com/liyinda/viewdns/backend/api/apis"
     "net/http"
     //"fmt"
-    //"github.com/liyinda/viewdns/backend/middleware/jwt"
+    "github.com/liyinda/viewdns/backend/middleware/jwt"
     "github.com/gin-gonic/contrib/sessions"
     "github.com/gin-contrib/cors"
 )
@@ -47,19 +47,19 @@ func InitRouter() *gin.Engine {
     passport := router.Group("/passport")
     {
         passport.POST("/login", Login) 
-        //passport.POST("/logout", Logout) 
+        passport.POST("/logout", Logout) 
     }
 
 
 
     //用户管理入口
     home := router.Group("/home")
-    //home.Use(jwt.JWT())
+    home.Use(jwt.JWT())
     {
         home.GET("/userinfo", Userinfo)
         home.GET("/dnslist", Dnslist)
     }
-    //home.Use(AuthRequired())
+    home.Use(AuthRequired())
 
 
     //定义默认路由
