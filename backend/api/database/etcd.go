@@ -30,7 +30,7 @@ func GetEtcdkey(key string) (value string, err error) {
     defer cli.Close()
 
     ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
-    resp, err := cli.Get(ctx, "/skydns/local/skydns/")
+    resp, err := cli.Get(ctx, "/skydns/")
     cancel()
     if err != nil {
         //log.Fatal(err)
@@ -44,3 +44,5 @@ func GetEtcdkey(key string) (value string, err error) {
     return 
 
 }
+
+
