@@ -3,7 +3,7 @@ coredns主机 172.20.52.36
 etcd主机 172.20.57.58
 
 #运行coredns
-./coredns -config corefile
+./coredns -conf corefile
 
 #运行etcd
 #注意etcd的版本3.4.2 API版本3.4 
@@ -23,6 +23,9 @@ etcd主机 172.20.57.58
 
 #put上传etcd数据
 ./etcdctl put /skydns/local/skydns/ '{"host":"1.1.1.1","ttl":60}'
+
+#list列出所有的key/value
+./etcdctl get /skydns --prefix --keys-only=true
 
 #测试
 dig skydns.local  @172.20.52.36  +short

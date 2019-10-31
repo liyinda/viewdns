@@ -20,8 +20,8 @@ func main() {
 
     //客户端配置
     config = clientv3.Config{
-        Endpoints:   []string{"172.20.57.58:2379"}, //集群列表
-        DialTimeout: 5 * time.Second,
+        Endpoints:   []string{"172.20.57.58:2379"},
+        DialTimeout: 1 * time.Second,
     }
     //建立客户端
     if client, err = clientv3.New(config); err != nil {
@@ -36,6 +36,10 @@ func main() {
         fmt.Println(err)
     } else { //获取成功，我们遍历所有kvs
         fmt.Println(reflect.TypeOf(getResp.Kvs))
-        fmt.Println(getResp.Kvs[1])
+        for _, ev := range getResp.Kvs {
+            fmt.Printf("%s : %s\n", ev.Key, ev.Value)
+
+        }
+
     }
 }

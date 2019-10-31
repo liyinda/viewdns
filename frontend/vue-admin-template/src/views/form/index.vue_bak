@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="dataForm" :model="form" label-width="120px">
+    <el-form ref="form" :model="form" label-width="120px">
       <el-form-item label="Activity name">
         <el-input v-model="form.name" />
       </el-form-item>
@@ -48,8 +48,6 @@
 </template>
 
 <script>
-import { addDomain } from '@/api/table'
-
 export default {
   data() {
     return {
@@ -67,28 +65,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp)
-          addDomain(tempData).then(() => {
-            for (const v of this.list) {
-              if (v.id === this.temp.id) {
-                const index = this.list.indexOf(v)
-                this.list.splice(index, 1, this.temp)
-                break
-              }
-            }
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
+      this.$message('submit!')
     },
     onCancel() {
       this.$message({

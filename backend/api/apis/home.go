@@ -8,9 +8,9 @@ import (
     //"fmt"
     //"strings"
     //"github.com/liyinda/viewdns/backend/pkg/util"
-    //"github.com/liyinda/viewdns/backend/pkg/e"
+    "github.com/liyinda/viewdns/backend/pkg/e"
     //"strconv"
-    "encoding/json"
+    //"encoding/json"
 )
 
 
@@ -31,7 +31,8 @@ func Dnslist(c *gin.Context) {
     }
     */
     //获取POST中json参数
-    var json models.DNS_A
+    //var json models.DNS_A
+    var json models.DomainName
 
     /*if err := c.ShouldBindJSON(&json); err != nil {
         code = e.ERROR_NOT_JSON
@@ -49,7 +50,7 @@ func Dnslist(c *gin.Context) {
 
 
     //获取用户信息表
-    result := json.Dnslist()
+    result, _ := json.Dnslist()
     /*if err != nil{
         code = e.ERROR
     } else {
@@ -85,25 +86,26 @@ func Table(c *gin.Context) {
     }
     */
 
-
+    code := e.INVALID_PARAMS
     num := 2
 
-
-    s := `[{"id": "650000199402171139","domainname": "www.baidu.com","status": "deleted","type": "name","rdata": "10.10.10.10","ttl": "4316"},{"id": "650000199402171131","domainname": "sdfsdf","status": "deleted","type": "name","rdata": "2017-03-11 05:35:45","ttl": "4317"}]`
-
-    keys := make([]models.PublicKey,0)
-    err := json.Unmarshal([]byte(s), &keys)
-    if err == nil {
-
-        data := gin.H{
-            "items": keys,
-            "total": num,
-        }
-    
-        c.JSON(http.StatusOK, gin.H{
-            "code": 20000,
-            "data": data,
-        })
-
+    var json models.DomainName
+    //获取etcd中dns列表
+    items, err := json.Dnslist()
+    if err != nil{
+        code = e.ERROR
+    } else {
+        code = e.SUCCESS
     }
+
+    data := gin.H{
+        "items": items,
+        "total": num,
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "code": code,
+        "data": data,
+    })
+
 }

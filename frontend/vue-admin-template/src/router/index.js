@@ -51,28 +51,28 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '控制台', icon: 'dashboard' }
     }]
   },
 
   {
-    path: '/example',
+    path: '/home',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/home/table',
     name: 'Example',
-    meta: { title: 'Domain Name', icon: 'example' },
+    meta: { title: '域名解析', icon: 'example' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: '解析记录', icon: 'table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: { title: '搜索域名', icon: 'tree' }
       }
     ]
   },
@@ -85,7 +85,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: '添加域名', icon: 'form' }
       }
     ]
   },
