@@ -22,8 +22,8 @@ func main() {
 
     //ctx, cancel := context.WithTimeout(context.Background(), timeout)
     //resp, err := cli.Put(ctx, "sample_key", "sample_value")
-    //resp, err := cli.Put(context.TODO(), "/skydns/local/skydns/www1", '{"host":"1.1.1.3","ttl":60}')
-    resp, err := cli.Put(context.TODO(), "/skydns/local/skydns/www1", "1.1.1.4")
+    resp, err := cli.Put(context.TODO(), "/skydns/local/skydns/www1", "{\"host\":\"1.1.1.3\",\"ttl\":60}")
+    //resp, err := cli.Put(context.TODO(), "/skydns/local/skydns/www1", "1.1.1.4")
     //cancel()
     if err != nil {
         // handle error!

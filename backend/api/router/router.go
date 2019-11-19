@@ -59,6 +59,8 @@ func InitRouter() *gin.Engine {
         home.GET("/userinfo", Userinfo)
         home.GET("/dnslist", Dnslist)
         home.GET("/table", Table)
+        home.POST("/adddomain", AddDomain)
+        home.POST("/deldomain", DelDomain)
     }
     //home.Use(AuthRequired())
 

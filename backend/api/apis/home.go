@@ -5,11 +5,12 @@ import (
     "github.com/liyinda/viewdns/backend/api/models"
     //"github.com/gin-gonic/contrib/sessions"
     "net/http"
-    //"fmt"
+    "net"
+    "fmt"
     //"strings"
     //"github.com/liyinda/viewdns/backend/pkg/util"
     "github.com/liyinda/viewdns/backend/pkg/e"
-    //"strconv"
+    "strconv"
     //"encoding/json"
 )
 
@@ -50,7 +51,7 @@ func Dnslist(c *gin.Context) {
 
 
     //获取用户信息表
-    result, _ := json.Dnslist()
+    result, _ := json.DnsList()
     /*if err != nil{
         code = e.ERROR
     } else {
@@ -91,7 +92,7 @@ func Table(c *gin.Context) {
 
     var json models.DomainName
     //获取etcd中dns列表
-    items, err := json.Dnslist()
+    items, err := json.DnsList()
     if err != nil{
         code = e.ERROR
     } else {
@@ -106,6 +107,64 @@ func Table(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{
         "code": code,
         "data": data,
+    })
+
+}
+
+func AddDomain(c *gin.Context) {
+    code := e.INVALID_PARAMS
+    //获取url中参数值
+    domain := c.Query("domain")
+    ipv4 := c.Query("host")
+    ttl := c.Query("ttl")
+    //判断ip合法性
+    addr := net.ParseIP(ipv4)
+    if addr == nil {
+        code = e.ERROR
+    }
+    //string转int
+    intTTL, err := strconv.Atoi(ttl)
+    //判断ttl为整数
+    if err != nil {
+        code = e.ERROR
+        fmt.Println(err)
+    } else {
+            //判断ip合法性
+            addr := net.ParseIP(ipv4)
+            if addr == nil {
+                code = e.ERROR
+            } else {
+                code = e.SUCCESS
+        
+                var json models.EtcdRdata
+                json.DnsAdd(domain, ipv4, intTTL)
+            
+                c.JSON(http.StatusOK, gin.H{
+                    "code": code,
+                    "data": domain,
+                })
+            }
+    }
+
+}
+
+
+func DelDomain(c *gin.Context) {
+    code := e.INVALID_PARAMS
+    //获取url中参数值
+    domain := c.Query("domain")
+
+    var json models.EtcdRdata
+    res, err := json.DnsDel(domain)
+    if err != nil {
+        code = e.ERROR
+    } else {
+        code = e.SUCCESS
+    }
+    c.JSON(http.StatusOK, gin.H{
+        "code": code,
+        "data": domain,
+        "status": res,
     })
 
 }

@@ -1,14 +1,26 @@
-skydns.local {
+.:53 {
     etcd {
         path /skydns
         endpoint http://172.20.57.58:2379
+        fallthrough
     }
-    cache
+    prometheus 172.20.52.36:9253
+    forward . 127.0.0.1:54
+    reload
+    log
 }
 
-. {
-    forward . /etc/resolv.conf
-    cache
+yyuap.io.:54 {
+    file /conf/zone-team1 yyuap.io {
+    reload 20s
+    }
+}
+
+.:54 {
+    loadbalance round_robin
+    forward . 114.114.114.114 /etc/resolv.conf {
+    except www.yyuap.io.
+    }
 }
 
 

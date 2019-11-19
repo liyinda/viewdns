@@ -1,3 +1,13 @@
+#拓扑架构
+
+        Client
+          |
+          |
+         VUE
+          |
+        Golang
+
+
 #环境
 coredns主机 172.20.52.36
 etcd主机 172.20.57.58
@@ -27,6 +37,11 @@ etcd主机 172.20.57.58
 #list列出所有的key/value
 ./etcdctl get /skydns --prefix --keys-only=true
 
+#delete所有key/value
+./etcdctl del /skydns --prefix
+
 #测试
 dig skydns.local  @172.20.52.36  +short
 
+#监控
+http://172.20.52.36:3000/

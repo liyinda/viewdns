@@ -10,16 +10,16 @@ export function getList(params) {
 
 export function addDomain(params) {
   return request({
-    url: '/passport/logout',
+    url: '/home/adddomain',
     method: 'post',
     params
   })
 }
 
-export function updateUser(data) {
+export function delDomain(params) {
   return request({
-    url: '/home/useredit',
-    method: 'put',
+    url: '/home/deldomain',
+    method: 'post',
     params
   })
 }
